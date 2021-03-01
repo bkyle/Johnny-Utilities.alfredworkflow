@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>bundleid</key>
+	<string>com.bryankyle.johnnydecimal</string>
+	<key>category</key>
+	<string>Productivity</string>
+	<key>connections</key>
+	<dict>
+		<key>FFB51C78-B0C2-412A-A25E-28AFFA697BB9</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>57F8BEA8-E351-43F1-AA43-11FC5B9F4093</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
+	</dict>
+	<key>createdby</key>
+	<string>@bryan_kyle</string>
+	<key>description</key>
+	<string>Utilities for managing a johnny decimal folder</string>
+	<key>disabled</key>
+	<false/>
+	<key>name</key>
+	<string>Johnny Utilities</string>
+	<key>objects</key>
+	<array>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>openwith</key>
+				<string></string>
+				<key>sourcefile</key>
+				<string></string>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.action.openfile</string>
+			<key>uid</key>
+			<string>57F8BEA8-E351-43F1-AA43-11FC5B9F4093</string>
+			<key>version</key>
+			<integer>3</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>alfredfiltersresults</key>
+				<true/>
+				<key>alfredfiltersresultsmatchmode</key>
+				<integer>0</integer>
+				<key>argumenttreatemptyqueryasnil</key>
+				<true/>
+				<key>argumenttrimmode</key>
+				<integer>0</integer>
+				<key>argumenttype</key>
+				<integer>1</integer>
+				<key>escaping</key>
+				<integer>102</integer>
+				<key>keyword</key>
+				<string>jo</string>
+				<key>queuedelaycustom</key>
+				<integer>3</integer>
+				<key>queuedelayimmediatelyinitially</key>
+				<true/>
+				<key>queuedelaymode</key>
+				<integer>0</integer>
+				<key>queuemode</key>
+				<integer>1</integer>
+				<key>runningsubtext</key>
+				<string></string>
+				<key>script</key>
+				<string>from __future__ import print_function
+import json
+import os
+import subprocess
+import sys
+
+def ls(wd):
+    """Returns a list of directories under ``wd`` that match the johnny.decimal
+pattern. The directories returned will be related to the passed working directory."""
+    pattern = "[1234567890][1234567890]-*/[1234567890][1234567890]\ */[1234567890][1234567890].[1234567890][1234567890]*"
+    cmd = ["/bin/sh", "-c", "ls -1d %s" % pattern]
+    listing = subprocess.check_output(cmd, cwd=wd)
+    return listing.splitlines()
+
+def item(relpath, wd):
+    """Returns a dict to be included in the search filer results."""
+    basename = os.path.basename(relpath)
+    abspath = os.path.join(wd, relpath)
+    return {
+        "type": "file",
+        "title": basename,
+        "subtitle": relpath,
+        "arg": abspath,
+        "icon": {
+            "type": "fileicon",
+            "path": abspath,
+        },
+    }
+
+
+wd = sys.argv[1] if len(sys.argv) == 2 else None
+if not wd:
+    wd = os.getenv("JOHNNY_ROOT")
+if not wd:
+    wd = os.getcwd()
+wd = os.path.expanduser(wd)
+
+results = {"items": [item(relpath, wd) for relpath in ls(wd)]}
+print(json.dumps(results))</string>
+				<key>scriptargtype</key>
+				<integer>1</integer>
+				<key>scriptfile</key>
+				<string>jd.py</string>
+				<key>subtext</key>
+				<string>Lookup by Johnny.Decimal</string>
+				<key>title</key>
+				<string>Open "..."</string>
+				<key>type</key>
+				<integer>8</integer>
+				<key>withspace</key>
+				<true/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.input.scriptfilter</string>
+			<key>uid</key>
+			<string>FFB51C78-B0C2-412A-A25E-28AFFA697BB9</string>
+			<key>version</key>
+			<integer>3</integer>
+		</dict>
+	</array>
+	<key>readme</key>
+	<string>The workflow contains utilities (well, one utility now anyway) for working with a Johnny Decimal (https://johnnydecimal.com) system.
+
+
+Configuration
+-------------
+
+Set the JOHNNY_ROOT variable to the full path to the directory containing all of your files that have been organized according to your Johnny Decimal system.
+
+```
+/
+  Users/
+    jdoe/
+      Dropbox/              &lt;-- JOHNNY_ROOT = /Users/jdoe/Dropbox
+        10-19 Financials/
+          11 Tax Returns/
+          12 Payroll/
+            12.01 Staff bank details for payments/
+            12.02 Payroll calculation spreadsheet/
+            12.03 Payroll schedule for 2018/
+        20-29 Administration/
+          21 Company registration/
+          22 Contracts/
+          23 Staffing/
+        30-39 Marketing/
+          31 Assets/
+          32 Campaigns/
+          33 Publicity/
+          34 Events/
+        40-49 Sales/
+          41 Sales figures/
+          42 Proposals/
+```</string>
+	<key>uidata</key>
+	<dict>
+		<key>57F8BEA8-E351-43F1-AA43-11FC5B9F4093</key>
+		<dict>
+			<key>xpos</key>
+			<integer>420</integer>
+			<key>ypos</key>
+			<integer>130</integer>
+		</dict>
+		<key>FFB51C78-B0C2-412A-A25E-28AFFA697BB9</key>
+		<dict>
+			<key>xpos</key>
+			<integer>175</integer>
+			<key>ypos</key>
+			<integer>130</integer>
+		</dict>
+	</dict>
+	<key>variables</key>
+	<dict>
+		<key>JOHNNY_ROOT</key>
+		<string></string>
+	</dict>
+	<key>variablesdontexport</key>
+	<array>
+		<string>JOHNNY_ROOT</string>
+	</array>
+	<key>version</key>
+	<string>0.1</string>
+	<key>webaddress</key>
+	<string>https://github.com/bkyle</string>
+</dict>
+</plist>
