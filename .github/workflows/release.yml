@@ -1,0 +1,17 @@
+# This is a basic workflow that is manually triggered
+
+name: Release
+on:
+  push:
+    tags: [ "*" ]
+  workflow_dispatch:
+    inputs:
+      
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Archive
+        uses: montudor/action-zip@v0.1.1
+        with:
+          args: zip -qq -r Johnny-Utilities-${{ github.ref }}.alfredworkflow * -x .git
