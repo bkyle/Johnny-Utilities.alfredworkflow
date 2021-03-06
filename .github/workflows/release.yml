@@ -12,6 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Archive
-        uses: montudor/action-zip@v0.1.1
-        with:
-          args: zip -qq -r Johnny-Utilities-${{ github.ref }}.alfredworkflow * -x .git
+        run: zip -qq -r Johnny-Utilities-${{ github.ref }}.alfredworkflow * -x .git
+#        uses: montudor/action-zip@v0.1.1
+#        with:
+#          args: 
